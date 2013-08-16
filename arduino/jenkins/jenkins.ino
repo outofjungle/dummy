@@ -8,6 +8,7 @@
 char state;
 char current_state;
 double shift;
+long trigger = 0;
 
 void setup() {
   Serial.begin(9600);
@@ -28,11 +29,13 @@ void setup() {
     switch_on( LED_BLUE, theta + 2*shift );
     switch_on( LED_WHITE, theta + 3*shift );
   } while ( millis() < boot );
+  trigger = 0;
   switch_off();
 }
 
 void loop() {
   double theta = millis()/DELAY;
+  trigger++;
 
   if ( Serial.available() ) {
     current_state = Serial.read();
@@ -45,7 +48,6 @@ void loop() {
 
   if ( state == 'F' ) {
     switch_on( LED_RED, theta );
-    tone(SPEAKER_PIN, millis() % 1000 );
   } else if ( state == 'S' ) {
     analogWrite( LED_GREEN, 255 );
   }
@@ -60,6 +62,5 @@ void switch_off() {
     analogWrite( LED_GREEN, 0 );
     analogWrite( LED_BLUE, 0 );
     analogWrite( LED_WHITE, 0 );
-    noTone( SPEAKER_PIN );
 }
 
