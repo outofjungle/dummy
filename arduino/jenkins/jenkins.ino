@@ -2,6 +2,7 @@
 #define LED_GREEN 5
 #define LED_BLUE 6
 #define LED_WHITE 9
+#define SPEAKER_PIN 10
 #define DELAY 1000.0
 
 char state;
@@ -14,6 +15,7 @@ void setup() {
   pinMode(LED_GREEN, OUTPUT);
   pinMode(LED_BLUE, OUTPUT);
   pinMode(LED_WHITE, OUTPUT);
+  pinMode(SPEAKER_PIN, OUTPUT);
 
   shift = DELAY/(4 * DELAY);
   
@@ -43,6 +45,7 @@ void loop() {
 
   if ( state == 'F' ) {
     switch_on( LED_RED, theta );
+    tone(SPEAKER_PIN, millis() % 1000 );
   } else if ( state == 'S' ) {
     analogWrite( LED_GREEN, 255 );
   }
@@ -57,5 +60,6 @@ void switch_off() {
     analogWrite( LED_GREEN, 0 );
     analogWrite( LED_BLUE, 0 );
     analogWrite( LED_WHITE, 0 );
+    noTone( SPEAKER_PIN );
 }
 
